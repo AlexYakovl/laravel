@@ -3,7 +3,7 @@
 @section('title', 'Данные клиента')
 
 @section('content')
-    <h1>Клиент: {{ $client->name }}</h1>
+    <h1>Клиент: {{ $client->full_name }}</h1>
 
     <h2>Счета:</h2>
     <ul>

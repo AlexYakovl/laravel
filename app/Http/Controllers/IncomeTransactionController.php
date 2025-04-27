@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IncomeTransaction;
 use Illuminate\Http\Request;
 use App\Models\Account;
 class IncomeTransactionController extends Controller
@@ -27,7 +28,14 @@ class IncomeTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'account_id' => 'required|exists:accounts,id',
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        IncomeTransaction::create($validated);
+
+        return redirect()->back()->with('success', 'Приходная операция добавлена!');
     }
 
     /**
@@ -43,24 +51,35 @@ class IncomeTransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $transaction = IncomeTransaction::findOrFail($id);
+        return view('transactions.edit', compact('transaction'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $transaction = IncomeTransaction::findOrFail($id);
+        $transaction->update($validated);
+
+        return redirect()->route('accounts.show', $transaction->account_id)->with('success', 'Операция обновлена!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $transaction = IncomeTransaction::findOrFail($id);
+        $transaction->delete();
+
+        return redirect()->back()->with('success', 'Операция удалена!');
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Account;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Pagination\Paginator;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -17,8 +20,17 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Gate::define('admin', function () {
+            return Auth::check() && Auth::user()->is_admin;
+        });
+
+        Gate::define('view-account', function ($user, Account $account) {
+            return $user->id === $account->client_id;
+        });
+
+        Paginator::useBootstrap();
+
     }
 }
