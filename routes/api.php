@@ -27,3 +27,14 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource('accounts', AccountApiController::class);
 Route::apiResource('income-transactions', IncomeTransactionApiController::class);
 Route::apiResource('expense-transactions', ExpenseTransactionApiController::class);
+Route::get('/accounts/{id}/transactions', [AccountApiController::class, 'transactions']);
+Route::get('/accounts/{id}/transactions_total', [AccountApiController::class, 'transactions_total']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/accounts', [AccountApiController::class, 'index']);
+    Route::post('/accounts', [AccountApiController::class, 'store']);
+    Route::get('/accounts/{id}', [AccountApiController::class, 'show']);
+    Route::put('/accounts/{id}', [AccountApiController::class, 'update']);
+    Route::delete('/accounts/{id}', [AccountApiController::class, 'destroy']);
+});
+

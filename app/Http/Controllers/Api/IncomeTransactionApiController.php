@@ -30,7 +30,7 @@ class IncomeTransactionApiController extends Controller
         $validated = $request->validate([
             'account_id'        => 'required|integer',
             'amount'            => 'required|numeric',
-            'transaction_date'  => 'required|date',
+            'transaction_time'  => 'required|date',
         ]);
 
         $transaction = IncomeTransaction::create($validated);
