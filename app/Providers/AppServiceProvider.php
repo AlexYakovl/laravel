@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
             return $user->id === $account->client_id;
         });
 
+        Gate::define('create-transaction', function ($user) {
+            return $user !== null; // любой авторизованный пользователь
+        });
+
+
         Paginator::useBootstrap();
 
     }

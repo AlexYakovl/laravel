@@ -9,7 +9,7 @@ class ExpenseTransaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['account_id', 'amount', 'transaction_time'];
+    protected $fillable = ['account_id', 'amount', 'transaction_time', 'receipt_url'];
 
     public function account()
     {

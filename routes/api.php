@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-
 Route::apiResource('accounts', AccountApiController::class);
 Route::apiResource('income-transactions', IncomeTransactionApiController::class);
 Route::apiResource('expense-transactions', ExpenseTransactionApiController::class);
@@ -37,4 +36,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/accounts/{id}', [AccountApiController::class, 'update']);
     Route::delete('/accounts/{id}', [AccountApiController::class, 'destroy']);
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/income', [IncomeTransactionApiController::class, 'store'])
+        ->middleware('can:create-transaction');
+
+    Route::post('/expense', [ExpenseTransactionApiController::class, 'store'])
+        ->middleware('can:create-transaction');
+
+});
+
 
