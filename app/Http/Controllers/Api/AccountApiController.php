@@ -91,9 +91,9 @@ class AccountApiController extends Controller
 
         // Объединяем
         $transactions = $incomes
-            ->select('id', 'amount', 'transaction_time', \Illuminate\Support\Facades\DB::raw("'income' as type"))
+            ->select('id', 'amount', 'transaction_time', DB::raw("'income' as type"), DB::raw("NULL as receipt_url"))
             ->unionAll(
-                $expenses->select('id', 'amount', 'transaction_time', \Illuminate\Support\Facades\DB::raw("'expense' as type"))
+                $expenses->select('id', 'amount', 'transaction_time', DB::raw("'expense' as type"), 'receipt_url')
             )
             ->orderBy('transaction_time', 'desc')
             ->limit($perpage)
@@ -102,6 +102,7 @@ class AccountApiController extends Controller
 
         return response()->json($transactions);
     }
+
 
     // GET /api/accounts/{id}/transactions_total
     public function transactions_total($id)

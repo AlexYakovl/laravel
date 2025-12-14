@@ -22,10 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/logout', [AuthController::class, 'logout']);
 });
-
-Route::apiResource('accounts', AccountApiController::class);
-Route::apiResource('income-transactions', IncomeTransactionApiController::class);
-Route::apiResource('expense-transactions', ExpenseTransactionApiController::class);
 Route::get('/accounts/{id}/transactions', [AccountApiController::class, 'transactions']);
 Route::get('/accounts/{id}/transactions_total', [AccountApiController::class, 'transactions_total']);
 

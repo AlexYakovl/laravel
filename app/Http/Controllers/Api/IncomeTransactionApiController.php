@@ -13,7 +13,17 @@ class IncomeTransactionApiController extends Controller
     // GET /api/income-transactions
     public function index()
     {
-        return response()->json(IncomeTransaction::all());
+        $transactions = IncomeTransaction::all();
+        // смотрим прямо перед JSON
+        return response()->json($transactions->map(function($t) {
+            return [
+                'id' => $t->id,
+                'account_id' => $t->account_id,
+                'amount' => $t->amount,
+                'transaction_time' => $t->transaction_time,
+                'receipt_url' => $t->receipt_url, // явно добавляем
+            ];
+        }));
     }
 
     // GET /api/income-transactions/{id}

@@ -13,7 +13,17 @@ class ExpenseTransactionApiController extends Controller
     // GET /api/expense-transactions
     public function index()
     {
-        return response()->json(ExpenseTransaction::all());
+        $transactions = ExpenseTransaction::all();
+        // смотрим прямо перед JSON
+        return response()->json($transactions->map(function($t) {
+            return [
+                'id' => $t->id,
+                'account_id' => $t->account_id,
+                'amount' => $t->amount,
+                'transaction_time' => $t->transaction_time,
+                'receipt_url' => $t->receipt_url, // явно добавляем
+            ];
+        }));
     }
 
     // GET /api/expense-transactions/{id}
