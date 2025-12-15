@@ -91,7 +91,7 @@ class AccountApiController extends Controller
 
         // Объединяем
         $transactions = $incomes
-            ->select('id', 'amount', 'transaction_time', DB::raw("'income' as type"), DB::raw("NULL as receipt_url"))
+            ->select('id', 'amount', 'transaction_time', DB::raw("'income' as type"), 'receipt_url')
             ->unionAll(
                 $expenses->select('id', 'amount', 'transaction_time', DB::raw("'expense' as type"), 'receipt_url')
             )
